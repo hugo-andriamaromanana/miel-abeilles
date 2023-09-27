@@ -1,20 +1,26 @@
-from generator.bees import Bee
+from src.generator.bees import Bee
 import random
 
-class Evolve(Bee):
+class Evolve():
     
     def sex(self, bee1: Bee, bee2: Bee)-> Bee:
         """
         Create a new bee with the behavior of the two parents
         """
+        newBehavior = []
         
-        newBeeBehavior= []
-        
-        while len(newBeeBehavior) != bee1.behavior:
-            newBeeBehavior.append(bee1.behavior.pop(0))
-            newBeeBehavior.append(bee2.behavior.pop(0))
+        i=0
+        while len(newBehavior) != len(bee1.behavior):
             
-        return Bee(newBeeBehavior)
+            if i == len(bee1.behavior):
+                i=0
+            if bee1.behavior[i] not in newBehavior:
+                newBehavior.append(bee1.behavior[i])
+            if bee2.behavior[i] not in newBehavior:
+                newBehavior.append(bee2.behavior[i])
+            i+=1
+            
+        return Bee(newBehavior)
             
     def breed(self, bee1: Bee, bee2: Bee) -> tuple[Bee, Bee]:
         """
@@ -22,7 +28,7 @@ class Evolve(Bee):
         """
         return self.sex(bee1, bee2),self.sex(bee2,bee1)
     
-    def mutation(self, bee: Bee) -> Bee:
+    def mutation(bee: Bee) -> Bee:
         """
         Mutate the bee's behavior
         """
